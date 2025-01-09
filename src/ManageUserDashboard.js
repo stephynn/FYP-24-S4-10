@@ -17,14 +17,12 @@ const Sidebar = () => (
           </a>
           <hr style={styles.horizontalLine} />
         </li>
-        
         <li style={styles.sidebarNavItem}>
           <a href="/manage_user_dashboard" style={styles.linkStyle}>
             <img src={user} alt="User" style={styles.icon} />
             Manage User Dashboard
           </a>
         </li>
-
         <li style={styles.sidebarNavItem}>
           <a href="/feedback" style={styles.linkStyle}>
             <img src={feedback} alt="Feedback" style={styles.icon} />
@@ -32,22 +30,19 @@ const Sidebar = () => (
           </a>
           <hr style={styles.horizontalLine} />
         </li>
-
         <li style={styles.sidebarNavItem}>
           <a href="/profiling" style={styles.linkStyle}>
-            <img src={profques} alt="profiling" style={styles.icon} />
+            <img src={profques} alt="Profiling" style={styles.icon} />
             Manage Profiling
           </a>
         </li>
-
         <li style={styles.sidebarNavItem}>
           <a href="/workout" style={styles.linkStyle}>
-            <img src={workout} alt="workout" style={styles.icon} />
+            <img src={workout} alt="Workout" style={styles.icon} />
             Manage Workout and Training
           </a>
           <hr style={styles.horizontalLine} />
         </li>
-
         <li style={styles.sidebarNavItem}>
           <a href="/logout" style={styles.linkStyle}>
             <img src={logout} alt="Logout" style={styles.icon} />
@@ -60,6 +55,23 @@ const Sidebar = () => (
 );
 
 const ManageUserDashboard = () => {
+  const users = [
+    {
+      id: 1,
+      type: "User",
+      email: "user@example.com",
+      password: "********",
+      status: "Live",
+    },
+    {
+      id: 2,
+      type: "Business User",
+      email: "businessuser@example.com",
+      password: "********",
+      status: "Waiting for approval",
+    },
+  ];
+
   return (
     <div style={styles.dashboardContainer}>
       {/* Header */}
@@ -85,58 +97,55 @@ const ManageUserDashboard = () => {
               style={styles.searchInput}
             />
             <button style={styles.searchButton}>Search</button>
-            
-            {/* Filter Dropdown */}
             <select style={styles.filterDropdown}>
-                <option value="all">All</option>
-                <option value="user">User</option>
-                <option value="businessuser">Business User</option>
+              <option value="all">All</option>
+              <option value="user">User</option>
+              <option value="businessuser">Business User</option>
             </select>
-
           </div>
-          {/* Delete and Approve buttons */}
+
+          {/* Buttons */}
           <button style={styles.DeleteButton}>Delete</button>
           <button style={styles.ApproveButton}>Approve</button>
 
           {/* User Table */}
-          <thead>
-            <tr>
+          <table style={styles.table}>
+            <thead>
+              <tr>
+                <th style={styles.tableHeader}>
+                  <input type="checkbox" style={styles.checkbox} />
+                </th>
                 <th style={styles.tableHeader}>ID</th>
                 <th style={styles.tableHeader}>User Type</th>
                 <th style={styles.tableHeader}>Email</th>
                 <th style={styles.tableHeader}>Password</th>
                 <th style={styles.tableHeader}>Status</th>
                 <th style={styles.tableHeader}>Actions</th>
-            </tr>
-           </thead>
-           <tbody>
-                <tr style={styles.tableRow}>
-                        <td style={styles.tableCell}>1</td>
-                        <td style={styles.tableCell}>User</td>
-                        <td style={styles.tableCell}>user@example.com</td>
-                        <td style={styles.tableCell}>********</td>
-                        <td style={styles.tableCell}>Live</td>
-                        <td style={styles.tableCell}>
-                        <a href="#" style={styles.viewLink}>View</a>
-                        <a href="#" style={styles.deleteLink}>Delete</a>
-                        </td>
-                    </tr>
-
-                <tr style={styles.tableRow}>
-                        <td style={styles.tableCell}>2</td>
-                        <td style={styles.tableCell}>Business User</td>
-                        <td style={styles.tableCell}>user@example.com</td>
-                        <td style={styles.tableCell}>********</td>
-                        <td style={styles.tableCell}>Waiting for approval</td>
-                        <td style={styles.tableCell}>
-                        <a href="#" style={styles.viewLink}>View</a>
-                        <a href="#" style={styles.deleteLink}>Delete</a>
-                        </td>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id} style={styles.tableRow}>
+                  <td style={styles.tableCell}>
+                    <input type="checkbox" style={styles.checkbox} />
+                  </td>
+                  <td style={styles.tableCell}>{user.id}</td>
+                  <td style={styles.tableCell}>{user.type}</td>
+                  <td style={styles.tableCell}>{user.email}</td>
+                  <td style={styles.tableCell}>{user.password}</td>
+                  <td style={styles.tableCell}>{user.status}</td>
+                  <td style={styles.tableCell}>
+                    <a href={`/view_user_dashboard/${user.id}`} style={styles.viewLink}>
+                      View
+                    </a>
+                    <a href="#" style={styles.deleteLink}>
+                      Delete
+                    </a>
+                  </td>
                 </tr>
-
+              ))}
             </tbody>
-            
-
+          </table>
         </div>
       </div>
     </div>
@@ -326,32 +335,38 @@ const styles = {
   
 
   table: {
-    width: "100%",  
-    borderCollapse: "collapse",  
-    tableLayout: "fixed", 
-  },
-  
+  width: "100%",
+  borderCollapse: "collapse",
+  tableLayout: "auto", // Let the table adjust based on content
+},
 
 tableHeader: {
   backgroundColor: "#ddd",
   color: "#000",
   fontWeight: "bold",
   textAlign: "left",
-  padding: "10px",  
-  border: "1px solid #ddd",  
-  width: "15%",  
+  padding: "10px",
+  border: "1px solid #ddd",
+},
+
+checkbox: {
+  width: "14px",
+  height: "14px",
+  cursor: "pointer",
 },
 
 tableCell: {
   border: "1px solid #fff",
-  padding: "10px",  
+  padding: "10px",
   textAlign: "left",
-  width: "15%",  
+  wordWrap: "break-word", // Allow words to wrap within cells
+  whiteSpace: "normal",  // Allow text wrapping instead of keeping it on one line
+  overflow: "hidden", 
+  textOverflow: "ellipsis", // Optional: Add ellipsis if content exceeds
 },
 
-
 tableRow: {
-    backgroundColor: "#f9f9f9",
+  backgroundColor: "#f9f9f9",
 },
 
   

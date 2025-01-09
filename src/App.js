@@ -1,28 +1,38 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import backgroundImage from './images/landing.png';
-import Dashboard from './Dashboard'; // Import your Dashboard component
-import ManageUserDashboard from "./ManageUserDashboard";  // Import the new page
+import Dashboard from './Dashboard'; // Overview (Home Page)
+import ManageUserDashboard from "./ManageUserDashboard";  // Manage User Dashboard
+import ViewUserDashboard from "./ViewUserDashboard";
 
 function App() {
+  // Sample users array for manage user dashboard (dummy data)
+  const users = [
+    { id: 1, name: "John Doe", email: "john.doe@example.com" },
+    { id: 2, name: "Jane Smith", email: "jane.smith@example.com" },
+    { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com" },
+  ];
+
   return (
     <Router>
       <Routes>
-        {/* Route for LoginForm with background image */}
+        {/* Route for LoginForm*/}
         <Route path="/" element={<LoginForm />} />
         
-        {/* Route for Dashboard with white background */}
+        {/* Route for Dashboard*/}
         <Route path="/dashboard" element={<Dashboard />} />
 
-        {/* Route for Dashboard with white background */}
-        <Route path="/manage_user_dashboard" element={<ManageUserDashboard />} />
+        {/* Route for Manage User Dashboard (pass users as prop) */}
+        <Route path="/manage_user_dashboard" element={<ManageUserDashboard users={users} />} />
 
-
-        
+        {/* Route for Manage User Dashboard (View)*/}
+        <Route path="/view_user_dashboard/:id" element={<ViewUserDashboard />} />
       </Routes>
     </Router>
   );
 }
+
+
 
 function LoginForm() {
   const [email, setEmail] = useState("");

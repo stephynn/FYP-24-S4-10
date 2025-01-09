@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import home from "./images/home.png";
 import user from "./images/user.png";
 import feedback from "./images/feedback.png";
@@ -62,6 +63,13 @@ const Sidebar = () => (
 );
 
 const Dashboard = () => {
+  const navigate = useNavigate(); // Hook to handle navigation
+
+  // Handle the click for Start Now button
+  const handleStartNowClick = () => {
+    navigate('/manage_user_dashboard'); // Redirects to the manage user dashboard page
+  };
+
   return (
     <div style={styles.dashboardContainer}>
       {/* Header */}
@@ -105,9 +113,11 @@ const Dashboard = () => {
                 backgroundImage: `url(${backgroundImageUserDashboard})`,
               }}
             >
-              <h3>Manage User Dashboard</h3>
-              {/* Add Button Below Manage User Dashboard */}
-              <button style={styles.button}>Start Now</button>
+               <h3>Manage User Dashboard</h3>
+               {/* Add Button Below Manage User Dashboard */}
+               <button style={styles.button} onClick={handleStartNowClick}>
+                 Start Now
+               </button>
             </div>
           </div>
         </div>
