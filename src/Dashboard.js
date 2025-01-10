@@ -9,7 +9,8 @@ import logout from "./images/logout.png";
 import backgroundImage from './images/manage_feedback.png';
 import backgroundImageUserDashboard from './images/manage_user_dashboard.png';
 
-const Sidebar = () => (
+// Sidebar 
+const Sidebar = ({ handleLogout }) => (
   <aside style={styles.sidebar}>
     <nav>
       <ul style={styles.sidebarNav}>
@@ -20,7 +21,7 @@ const Sidebar = () => (
           </a>
           <hr style={styles.horizontalLine} />
         </li>
-        
+
         <li style={styles.sidebarNavItem}>
           <a href="/manage_user_dashboard" style={styles.linkStyle}>
             <img src={user} alt="User" style={styles.icon} />
@@ -51,23 +52,31 @@ const Sidebar = () => (
           <hr style={styles.horizontalLine} />
         </li>
 
+        {/* Logout button */}
         <li style={styles.sidebarNavItem}>
-          <a href="/logout" style={styles.linkStyle}>
+        <a href="/" style={styles.linkStyle}>
             <img src={logout} alt="Logout" style={styles.icon} />
             Logout
-          </a>
+        </a>
         </li>
       </ul>
     </nav>
   </aside>
 );
 
+// Dashboard Component
 const Dashboard = () => {
   const navigate = useNavigate(); // Hook to handle navigation
 
   // Handle the click for Start Now button
   const handleStartNowClick = () => {
     navigate('/manage_user_dashboard'); // Redirects to the manage user dashboard page
+  };
+
+  // Logout function to clear session and navigate to the login page
+  const handleLogout = () => {
+    localStorage.removeItem("userToken"); // Clear user token from local storage
+    navigate('/'); // Navigate to the login page
   };
 
   return (
@@ -83,13 +92,12 @@ const Dashboard = () => {
 
       {/* Dashboard Layout */}
       <div style={styles.dashboardLayout}>
-        <Sidebar />
+        {/* Pass handleLogout as a prop to Sidebar */}
+        <Sidebar handleLogout={handleLogout} />
         <div style={styles.dashboardContent}>
           <h2 style={styles.overviewTitle}>Overview</h2>
-
           {/* Add sections here */}
           <div style={styles.sectionsContainer}>
-            {/* Top section */}
             <div style={styles.fullWidthSection}>
               <h3>Users and App Performance</h3>
               <p>Track user details and app performance metrics in real-time.</p>
@@ -103,7 +111,6 @@ const Dashboard = () => {
               }}
             >
               <h3>Manage Feedback</h3>
-              {/* Add Button Below Manage Feedback */}
               <button style={styles.button}>Start Now</button>
             </div>
 
@@ -113,11 +120,10 @@ const Dashboard = () => {
                 backgroundImage: `url(${backgroundImageUserDashboard})`,
               }}
             >
-               <h3>Manage User Dashboard</h3>
-               {/* Add Button Below Manage User Dashboard */}
-               <button style={styles.button} onClick={handleStartNowClick}>
-                 Start Now
-               </button>
+              <h3>Manage User Dashboard</h3>
+              <button style={styles.button} onClick={handleStartNowClick}>
+                Start Now
+              </button>
             </div>
           </div>
         </div>
@@ -126,6 +132,7 @@ const Dashboard = () => {
   );
 };
 
+// Styles
 const styles = {
   dashboardContainer: {
     margin: 0,

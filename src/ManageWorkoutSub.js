@@ -7,8 +7,8 @@ import profques from "./images/profques.png";
 import workout from "./images/workout.png";
 import logout from "./images/logout.png";
 
-// Sidebar Component
-const Sidebar = () => (
+// Sidebar 
+const Sidebar = ({ handleLogout }) => (
   <aside style={styles.sidebar}>
     <nav>
       <ul style={styles.sidebarNav}>
@@ -19,12 +19,14 @@ const Sidebar = () => (
           </a>
           <hr style={styles.horizontalLine} />
         </li>
+
         <li style={styles.sidebarNavItem}>
           <a href="/manage_user_dashboard" style={styles.linkStyle}>
             <img src={user} alt="User" style={styles.icon} />
             Manage User Dashboard
           </a>
         </li>
+
         <li style={styles.sidebarNavItem}>
           <a href="/feedback" style={styles.linkStyle}>
             <img src={feedback} alt="Feedback" style={styles.icon} />
@@ -32,24 +34,28 @@ const Sidebar = () => (
           </a>
           <hr style={styles.horizontalLine} />
         </li>
+
         <li style={styles.sidebarNavItem}>
           <a href="/profiling" style={styles.linkStyle}>
-            <img src={profques} alt="Profiling" style={styles.icon} />
+            <img src={profques} alt="profiling" style={styles.icon} />
             Manage Profiling
           </a>
         </li>
+
         <li style={styles.sidebarNavItem}>
           <a href="/workout" style={styles.linkStyle}>
-            <img src={workout} alt="Workout" style={styles.icon} />
+            <img src={workout} alt="workout" style={styles.icon} />
             Manage Workout and Training
           </a>
           <hr style={styles.horizontalLine} />
         </li>
+
+        {/* Logout button */}
         <li style={styles.sidebarNavItem}>
-          <a href="/logout" style={styles.linkStyle}>
+        <a href="/" style={styles.linkStyle}>
             <img src={logout} alt="Logout" style={styles.icon} />
             Logout
-          </a>
+        </a>
         </li>
       </ul>
     </nav>
