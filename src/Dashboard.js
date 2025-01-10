@@ -30,7 +30,7 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/feedback" style={styles.linkStyle}>
+          <a href="/manage_feedback" style={styles.linkStyle}>
             <img src={feedback} alt="Feedback" style={styles.icon} />
             Manage Feedback
           </a>
@@ -73,6 +73,11 @@ const Dashboard = () => {
     navigate('/manage_user_dashboard'); // Redirects to the manage user dashboard page
   };
 
+   // Handle the click for Start Now button
+   const handleStartNowFeedbackClick = () => {
+    navigate('/manage_feedback'); // Redirects to the manage user dashboard page
+  };
+
   // Logout function to clear session and navigate to the login page
   const handleLogout = () => {
     localStorage.removeItem("userToken"); // Clear user token from local storage
@@ -111,7 +116,9 @@ const Dashboard = () => {
               }}
             >
               <h3>Manage Feedback</h3>
-              <button style={styles.button}>Start Now</button>
+              <button style={styles.button} onClick={handleStartNowFeedbackClick}>
+                Start Now
+              </button>
             </div>
 
             <div

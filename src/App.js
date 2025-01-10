@@ -6,15 +6,11 @@ import ManageUserDashboard from "./ManageUserDashboard";  // Manage User Dashboa
 import ViewUserDashboard from "./ViewUserDashboard";
 import ManageWorkout from "./ManageWorkout";
 import ManageWorkoutSub from "./ManageWorkoutSub";
+import ManageFeedback from "./ManageFeedback";
+import ViewFeedback from "./ViewFeedback";
 
 function App() {
-  // Sample users array for manage user dashboard (dummy data)
-  const users = [
-    { id: 1, name: "John Doe", email: "john.doe@example.com" },
-    { id: 2, name: "Jane Smith", email: "jane.smith@example.com" },
-    { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com" },
-  ];
-
+ 
   return (
     <Router>
       <Routes>
@@ -25,7 +21,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Route for Manage User Dashboard (pass users as prop) */}
-        <Route path="/manage_user_dashboard" element={<ManageUserDashboard users={users} />} />
+        <Route path="/manage_user_dashboard" element={<ManageUserDashboard />} />
 
         {/* Route for Manage User Dashboard (View)*/}
         <Route path="/view_user_dashboard/:id" element={<ViewUserDashboard />} />
@@ -35,6 +31,12 @@ function App() {
 
          {/* Route for Workout and Training (Sub Category) */}
          <Route path="/manage_sub_category" element={<ManageWorkoutSub/>} />
+
+         {/* Route for Feedback */}
+         <Route path="/manage_feedback" element={<ManageFeedback/>} />
+
+           {/* Route for Feedback (View)*/}
+        <Route path="/view_feedback/:id" element={<ViewFeedback />} />
 
       </Routes>
     </Router>

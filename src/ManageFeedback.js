@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import home from "./images/home.png";
 import user from "./images/user.png";
 import feedback from "./images/feedback.png";
@@ -27,7 +27,7 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/manage_feedback" style={styles.linkStyle}>
+          <a href="/feedback" style={styles.linkStyle}>
             <img src={feedback} alt="Feedback" style={styles.icon} />
             Manage Feedback
           </a>
@@ -62,25 +62,51 @@ const Sidebar = ({ handleLogout }) => (
 );
 
 
-
-const ManageUserDashboard = () => {
-  const users = [
-    {
-      id: 1,
-      type: "User",
-      email: "user@example.com",
-      password: "********",
-      status: "Live",
-    },
-    {
-      id: 2,
-      type: "Business User",
-      email: "businessuser@example.com",
-      password: "********",
-      status: "Waiting for approval",
-    },
-  ];
-
+const ManageFeedback = () => {
+    const [showPopup, setShowPopup] = useState(false);
+    const [rating, setRating] = useState("");
+    const [review, setReview] = useState("");
+    const [selectedDate, setSelectedDate] = useState("");
+  
+    const users = [
+        {
+          id: 1,
+          email: "user@example.com",
+          date: "12/09/2024",
+          rating: "4/5",
+          status: "",
+        },
+        {
+          id: 2,
+          email: "user@example.com",
+          date: "01/07/2024",
+          rating: "5/5",
+          status: "Live",
+        },
+        {
+          id: 3,
+          email: "user@example.com",
+          date: "18/06/2024",
+          rating: "3/5",
+          status: "",
+        },
+      ];
+    
+      const handleScheduleClick = () => {
+        setShowPopup(true);
+      };
+    
+      const handlePopupClose = () => {
+        setShowPopup(false);
+      };
+    
+      const handleSend = () => {
+        console.log("Rating:", rating);
+        console.log("Review:", review);
+        console.log("Selected Date:", selectedDate);
+        setShowPopup(false);
+      };
+    
   return (
     <div style={styles.dashboardContainer}>
       {/* Header */}
@@ -96,26 +122,22 @@ const ManageUserDashboard = () => {
       <div style={styles.dashboardLayout}>
         <Sidebar />
         <div style={styles.dashboardContent}>
-          <h2 style={styles.overviewTitle}>Manage User Dashboard</h2>
+          <h2 style={styles.overviewTitle}>Manage Feedback</h2>
 
-          {/* Search Bar */}
-          <div style={styles.searchBarContainer}>
-            <input
-              type="text"
-              placeholder="Search for user..."
-              style={styles.searchInput}
-            />
-            <button style={styles.searchButton}>Search</button>
-            <select style={styles.filterDropdown}>
+          {/* Filter */}
+          <select style={styles.filterDropdown}>
               <option value="all">All</option>
-              <option value="user">User</option>
-              <option value="businessuser">Business User</option>
-            </select>
-          </div>
+              <option value="status">Live</option>
+              <option value="status">Nil</option>
+          </select>
 
+    
           {/* Buttons */}
-          <button style={styles.DeleteButton}>Delete</button>
-          <button style={styles.ApproveButton}>Approve</button>
+          <button style={styles.ResetButton}>Reset</button>
+          <button style={styles.UploadButton}>Upload</button>
+          <button style={styles.ScheduleButton} onClick={handleScheduleClick}>
+            Schedule
+          </button>
 
           {/* User Table */}
           <table style={styles.table}>
@@ -125,9 +147,9 @@ const ManageUserDashboard = () => {
                   <input type="checkbox" style={styles.checkbox} />
                 </th>
                 <th style={styles.tableHeader}>ID</th>
-                <th style={styles.tableHeader}>User Type</th>
                 <th style={styles.tableHeader}>Email</th>
-                <th style={styles.tableHeader}>Password</th>
+                <th style={styles.tableHeader}>Date</th>
+                <th style={styles.tableHeader}>Rating</th>
                 <th style={styles.tableHeader}>Status</th>
                 <th style={styles.tableHeader}>Actions</th>
               </tr>
@@ -139,16 +161,16 @@ const ManageUserDashboard = () => {
                     <input type="checkbox" style={styles.checkbox} />
                   </td>
                   <td style={styles.tableCell}>{user.id}</td>
-                  <td style={styles.tableCell}>{user.type}</td>
                   <td style={styles.tableCell}>{user.email}</td>
-                  <td style={styles.tableCell}>{user.password}</td>
+                  <td style={styles.tableCell}>{user.date}</td>
+                  <td style={styles.tableCell}>{user.rating}</td>
                   <td style={styles.tableCell}>{user.status}</td>
                   <td style={styles.tableCell}>
-                    <a href={`/view_user_dashboard/${user.id}`} style={styles.viewLink}>
+                    <a href={`/view_feedback/${user.id}`} style={styles.viewLink}>
                       View
                     </a>
                     <a href="#" style={styles.deleteLink}>
-                      Delete
+                      Upload
                     </a>
                   </td>
                 </tr>
@@ -157,6 +179,37 @@ const ManageUserDashboard = () => {
           </table>
         </div>
       </div>
+
+       {/* Popup */}
+       {showPopup && (
+        <div style={styles.popupOverlay}>
+          <div style={styles.popup}>
+            <h3 style={styles.popupTitle}>Schedule Feedback</h3>
+           
+            <label style={styles.label}>
+              Date:
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                style={styles.input}
+              />
+            </label>
+            <div style={styles.popupActions}>
+              <button style={styles.SendButton} onClick={handleSend}>
+                Send
+              </button>
+              <button style={styles.CloseButton} onClick={handlePopupClose}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
+
     </div>
   );
 };
@@ -314,10 +367,10 @@ const styles = {
     backgroundColor: "#fff",
     cursor: "pointer",
     width: "120px",
-    marginLeft: "10px", 
+    marginRight: "10px",
   },
 
-  DeleteButton: {
+  ResetButton: {
     marginTop: "20px",
     marginBottom: "30px", 
     padding: "10px 20px",
@@ -330,7 +383,20 @@ const styles = {
     marginRight: "10px",
   },
   
-  ApproveButton: {
+  UploadButton: {
+    marginTop: "20px",
+    marginBottom: "30px", 
+    padding: "10px 20px",
+    backgroundColor: "#333333",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "14px",
+    marginRight: "10px",
+  },
+
+  ScheduleButton: {
     marginTop: "20px",
     marginBottom: "30px", 
     padding: "10px 20px",
@@ -341,6 +407,7 @@ const styles = {
     cursor: "pointer",
     fontSize: "14px",
   },
+  
   
 
   table: {
@@ -378,7 +445,73 @@ tableRow: {
   backgroundColor: "#f9f9f9",
 },
 
+popupOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  popup: {
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "10px",
+    width: "400px",
+    textAlign: "center",
+  },
+  popupTitle: {
+    marginBottom: "20px",
+    fontSize: "18px",
+    fontWeight: "bold",
+  },
+  label: {
+    display: "block",
+    marginBottom: "10px",
+    textAlign: "left",
+  },
+  input: {
+    width: "80%",
+    padding: "10px",
+    marginBottom: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+  },
+  textarea: {
+    width: "80%",
+    padding: "10px",
+    height: "80px",
+    marginBottom: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+  },
+  popupActions: {
+    display: "flex",
+    justifyContent: "center", 
+    gap: "10px", 
+    padding: "10px",
+  },
   
+  SendButton: {
+    backgroundColor: "#000",
+    color: "#fff",
+    border: "none",
+    padding: "10px",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  CloseButton: {
+    backgroundColor: "#000",
+    color: "#fff",
+    border: "none",
+    padding: "10px",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
 };
 
-export default ManageUserDashboard;
+export default ManageFeedback;

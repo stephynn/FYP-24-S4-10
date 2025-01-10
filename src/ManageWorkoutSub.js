@@ -28,7 +28,7 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/feedback" style={styles.linkStyle}>
+          <a href="/manage_feedback" style={styles.linkStyle}>
             <img src={feedback} alt="Feedback" style={styles.icon} />
             Manage Feedback
           </a>

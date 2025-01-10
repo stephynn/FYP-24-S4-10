@@ -9,61 +9,60 @@ import logout from "./images/logout.png";
 
 // Sidebar 
 const Sidebar = ({ handleLogout }) => (
-  <aside style={styles.sidebar}>
-    <nav>
-      <ul style={styles.sidebarNav}>
-        <li style={styles.sidebarNavItem}>
-          <a href="/dashboard" style={styles.linkStyle}>
-            <img src={home} alt="Home" style={styles.icon} />
-            Home Page
+    <aside style={styles.sidebar}>
+      <nav>
+        <ul style={styles.sidebarNav}>
+          <li style={styles.sidebarNavItem}>
+            <a href="/dashboard" style={styles.linkStyle}>
+              <img src={home} alt="Home" style={styles.icon} />
+              Home Page
+            </a>
+            <hr style={styles.horizontalLine} />
+          </li>
+  
+          <li style={styles.sidebarNavItem}>
+            <a href="/manage_user_dashboard" style={styles.linkStyle}>
+              <img src={user} alt="User" style={styles.icon} />
+              Manage User Dashboard
+            </a>
+          </li>
+  
+          <li style={styles.sidebarNavItem}>
+            <a href="/manage_feedback" style={styles.linkStyle}>
+              <img src={feedback} alt="Feedback" style={styles.icon} />
+              Manage Feedback
+            </a>
+            <hr style={styles.horizontalLine} />
+          </li>
+  
+          <li style={styles.sidebarNavItem}>
+            <a href="/profiling" style={styles.linkStyle}>
+              <img src={profques} alt="profiling" style={styles.icon} />
+              Manage Profiling
+            </a>
+          </li>
+  
+          <li style={styles.sidebarNavItem}>
+            <a href="/workout" style={styles.linkStyle}>
+              <img src={workout} alt="workout" style={styles.icon} />
+              Manage Workout and Training
+            </a>
+            <hr style={styles.horizontalLine} />
+          </li>
+  
+          {/* Logout button */}
+          <li style={styles.sidebarNavItem}>
+          <a href="/" style={styles.linkStyle}>
+              <img src={logout} alt="Logout" style={styles.icon} />
+              Logout
           </a>
-          <hr style={styles.horizontalLine} />
-        </li>
-
-        <li style={styles.sidebarNavItem}>
-          <a href="/manage_user_dashboard" style={styles.linkStyle}>
-            <img src={user} alt="User" style={styles.icon} />
-            Manage User Dashboard
-          </a>
-        </li>
-
-        <li style={styles.sidebarNavItem}>
-          <a href="/manage_feedback" style={styles.linkStyle}>
-            <img src={feedback} alt="Feedback" style={styles.icon} />
-            Manage Feedback
-          </a>
-          <hr style={styles.horizontalLine} />
-        </li>
-
-        <li style={styles.sidebarNavItem}>
-          <a href="/profiling" style={styles.linkStyle}>
-            <img src={profques} alt="profiling" style={styles.icon} />
-            Manage Profiling
-          </a>
-        </li>
-
-        <li style={styles.sidebarNavItem}>
-          <a href="/workout" style={styles.linkStyle}>
-            <img src={workout} alt="workout" style={styles.icon} />
-            Manage Workout and Training
-          </a>
-          <hr style={styles.horizontalLine} />
-        </li>
-
-        {/* Logout button */}
-        <li style={styles.sidebarNavItem}>
-        <a href="/" style={styles.linkStyle}>
-            <img src={logout} alt="Logout" style={styles.icon} />
-            Logout
-        </a>
-        </li>
-      </ul>
-    </nav>
-  </aside>
-);
-
-
-const ViewUserDashboard = () => {
+          </li>
+        </ul>
+      </nav>
+    </aside>
+  );
+  
+const ViewFeedback = () => {
     const { id } = useParams(); // Retrieve user ID from the route parameter
     const navigate = useNavigate();  // Use navigate to redirect
     const [user, setUser] = useState(null);
@@ -142,95 +141,59 @@ const ViewUserDashboard = () => {
           <div style={styles.arrowButtonContainer}>
             <button 
               style={styles.arrowButton} 
-              onClick={() => navigate('/manage_user_dashboard')}
+              onClick={() => navigate('/manage_feedback')}
             >
-              &#8592; Manage User Dashboard
+              &#8592; Manage Feedback
             </button>
           </div>
 
             <div style={styles.headerWithButton}>
-                <h2 style={styles.overviewTitle}>User Information</h2>
+                <h2 style={styles.overviewTitle}>Rating and Review</h2>
 
-                {/* Update Button */}
-                <button onClick={handleUpdate} style={styles.updateButton}>
-                Update
-                </button>
             </div>
 
           <div style={styles.userInfoContainer}>
             <div style={styles.column}>
-              <p style={styles.userInfoText}>Username: </p>
+              <p style={styles.userInfoText}>ID </p>
               <input 
                 type="text" 
                 value={user?.username || 'User123'} 
                 readOnly 
                 style={styles.readOnlyInput} 
               />
-              <p style={styles.userInfoText}>Email: </p>
+              <p style={styles.userInfoText}>Email </p>
               <input 
                 type="text" 
                 value={user?.email || 'user@example.com'} 
                 readOnly 
                 style={styles.readOnlyInput} 
               />
-              <p style={styles.userInfoText}>Password: </p>
-              <input
-                type="text"
-                value={password}
-                onChange={handlePasswordChange}
-                readOnly={!isPasswordEditable}
-                style={{
-                    ...styles.readOnlyInput,
-                    cursor: isPasswordEditable ? "text" : "not-allowed"  // Conditionally set the cursor
-                }}
-                />
 
-              <div>
-                {/* Reset password link */}
-                {!isPasswordEditable && (
-                  <a 
-                    href="#"
-                    onClick={handlePasswordReset} 
-                    style={styles.resetPasswordLink}
-                  >
-                    Reset Password
-                  </a>
-                )}
-              </div>
             </div>
             <div style={styles.column}>
-              <p style={styles.userInfoText}>Gender:</p>
-              <input 
-                type="text" 
-                value={user?.gender || 'M'} 
-                readOnly 
-                style={styles.readOnlyInput} 
-              />
-              <p style={styles.userInfoText}>Height (cm):</p>
-              <input 
-                type="text" 
-                value={user?.height || '173'} 
-                readOnly 
-                style={styles.readOnlyInput} 
-              />
-              <p style={styles.userInfoText}>Weight: (kg) </p>
-              <input 
-                type="text" 
-                value={user?.weight || '78'} 
-                readOnly 
-                style={styles.readOnlyInput} 
-              />
+            <p style={styles.userInfoText}>Rating:</p>
+                <div style={styles.ratingContainer}>
+                    <input 
+                    type="text" 
+                    value={user?.gender || '4'} // This part stays as it is, displaying user data or default value
+                    readOnly 
+                    style={styles.readOnlyInput} 
+                    />
+                    <span style={styles.ratingText}>/5</span>  {/* Add "/5" outside the input */}
+                </div>
+
+            <p style={styles.userInfoText}>Review:</p>
+            <textarea
+            value={user?.height || 'The application is very user friendly, easy to navigate around'}
+            readOnly
+            style={{ ...styles.readOnlyInput, height: '150px' }} 
+            rows="6" 
+            />
+                    
+            
+  
             </div>
 
-            <div style={styles.column}>
-              <p style={styles.userInfoText}>User Type: </p>
-              <input 
-                type="text" 
-                value={user?.userType || 'User'} 
-                readOnly 
-                style={styles.readOnlyInput} 
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -414,7 +377,20 @@ const styles = {
     cursor: "pointer",
     fontSize: "14px",
     borderRadius: "5px",
+  },
+
+  ratingContainer: {
+    display: "flex",  // Flexbox allows input and span to sit next to each other
+    alignItems: "center",  // Align vertically in the center
+    
+  },
+  
+  ratingText: {
+    fontSize: "16px",  // Adjust font size if needed
+    marginLeft: "5px",  // Adds space between input field and "/5"
+    color: "#333",  // Color for the "/5" text
   }
+  
 };
 
-export default ViewUserDashboard;
+export default ViewFeedback;
