@@ -4,6 +4,8 @@ import backgroundImage from './images/landing.png';
 import Dashboard from './Dashboard'; // Overview (Home Page)
 import ManageUserDashboard from "./ManageUserDashboard";  // Manage User Dashboard
 import ViewUserDashboard from "./ViewUserDashboard";
+import ManageWorkout from "./ManageWorkout";
+import ManageWorkoutSub from "./ManageWorkoutSub";
 
 function App() {
   // Sample users array for manage user dashboard (dummy data)
@@ -27,6 +29,13 @@ function App() {
 
         {/* Route for Manage User Dashboard (View)*/}
         <Route path="/view_user_dashboard/:id" element={<ViewUserDashboard />} />
+
+         {/* Route for Workout and Training */}
+         <Route path="/workout" element={<ManageWorkout/>} />
+
+         {/* Route for Workout and Training (Sub Category) */}
+         <Route path="/manage_sub_category" element={<ManageWorkoutSub/>} />
+
       </Routes>
     </Router>
   );
