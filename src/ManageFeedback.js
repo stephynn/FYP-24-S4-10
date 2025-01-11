@@ -63,10 +63,9 @@ const Sidebar = ({ handleLogout }) => (
 
 
 const ManageFeedback = () => {
-    const [showPopup, setShowPopup] = useState(false);
-    const [rating, setRating] = useState("");
-    const [review, setReview] = useState("");
-    const [selectedDate, setSelectedDate] = useState("");
+  const [showUploadPopup, setShowUploadPopup] = useState(false); // Separate state for Upload
+  const [showSchedulePopup, setShowSchedulePopup] = useState(false); // Separate state for Schedule
+  const [selectedDate, setSelectedDate] = useState("");
   
     const users = [
         {
@@ -92,19 +91,23 @@ const ManageFeedback = () => {
         },
       ];
     
+     
       const handleScheduleClick = () => {
-        setShowPopup(true);
+        setShowSchedulePopup(true);
+      };
+
+      const handleUploadClick = () => {
+        setShowUploadPopup(true);
       };
     
       const handlePopupClose = () => {
-        setShowPopup(false);
+        setShowUploadPopup(false);
+        setShowSchedulePopup(false);
       };
     
       const handleSend = () => {
-        console.log("Rating:", rating);
-        console.log("Review:", review);
         console.log("Selected Date:", selectedDate);
-        setShowPopup(false);
+        setShowSchedulePopup(false);
       };
     
   return (
@@ -132,12 +135,14 @@ const ManageFeedback = () => {
           </select>
 
     
-          {/* Buttons */}
-          <button style={styles.ResetButton}>Reset</button>
-          <button style={styles.UploadButton}>Upload</button>
+           {/* Buttons */}
+          <button style={styles.UploadButton} onClick={handleUploadClick}>
+            Upload
+          </button>
           <button style={styles.ScheduleButton} onClick={handleScheduleClick}>
             Schedule
           </button>
+
 
           {/* User Table */}
           <table style={styles.table}>
@@ -169,9 +174,10 @@ const ManageFeedback = () => {
                     <a href={`/view_feedback/${user.id}`} style={styles.viewLink}>
                       View
                     </a>
-                    <a href="#" style={styles.deleteLink}>
+                    <a href="#" style={styles.deleteLink} onClick={handleUploadClick}>
                       Upload
                     </a>
+                    
                   </td>
                 </tr>
               ))}
@@ -180,12 +186,27 @@ const ManageFeedback = () => {
         </div>
       </div>
 
-       {/* Popup */}
-       {showPopup && (
+
+        {/* Upload Popup */}
+      {showUploadPopup && (
+        <div style={styles.popupOverlay}>
+          <div style={styles.popup}>
+            <h3 style={styles.popupTitle}>Uploaded successfully</h3>
+            <div style={styles.popupActions}>
+              <button style={styles.CloseButton} onClick={handlePopupClose}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+          {/* Schedule Popup */}
+      {showSchedulePopup && (
         <div style={styles.popupOverlay}>
           <div style={styles.popup}>
             <h3 style={styles.popupTitle}>Schedule Feedback</h3>
-           
             <label style={styles.label}>
               Date:
               <input
@@ -206,10 +227,6 @@ const ManageFeedback = () => {
           </div>
         </div>
       )}
-
-
-
-
     </div>
   );
 };
