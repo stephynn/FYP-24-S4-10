@@ -8,6 +8,8 @@ import ManageWorkout from "./ManageWorkout";
 import ManageWorkoutSub from "./ManageWorkoutSub";
 import ManageFeedback from "./ManageFeedback";
 import ViewFeedback from "./ViewFeedback";
+import ManageProfiling from "./ManageProfiling";
+import ViewProfiling from "./ViewProfiling";
 
 function App() {
  
@@ -26,17 +28,24 @@ function App() {
         {/* Route for Manage User Dashboard (View)*/}
         <Route path="/view_user_dashboard/:id" element={<ViewUserDashboard />} />
 
-         {/* Route for Workout and Training */}
-         <Route path="/workout" element={<ManageWorkout/>} />
+        {/* Route for Workout and Training */}
+        <Route path="/workout" element={<ManageWorkout/>} />
 
-         {/* Route for Workout and Training (Sub Category) */}
-         <Route path="/manage_sub_category" element={<ManageWorkoutSub/>} />
+        {/* Route for Workout and Training (Sub Category) */}
+        <Route path="/manage_sub_category" element={<ManageWorkoutSub/>} />
 
-         {/* Route for Feedback */}
-         <Route path="/manage_feedback" element={<ManageFeedback/>} />
+        {/* Route for Feedback */}
+        <Route path="/manage_feedback" element={<ManageFeedback/>} />
 
-           {/* Route for Feedback (View)*/}
+        {/* Route for Feedback (View)*/}
         <Route path="/view_feedback/:id" element={<ViewFeedback />} />
+
+        {/* Route for Profiling Questions*/}
+        <Route path="/manage_profques" element={<ManageProfiling/>} />
+
+         {/* Route for Profiling Questions*/}
+         <Route path="/view_profiling/:section" element={<ViewProfiling />} />
+
 
       </Routes>
     </Router>
