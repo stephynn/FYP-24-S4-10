@@ -35,8 +35,8 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/profiling" style={styles.linkStyle}>
-            <img src={profques} alt="profiling" style={styles.icon} />
+          <a href="/manage_profques" style={styles.linkStyle}>
+            <img src={profques} alt="Profiling" style={styles.icon} />
             Manage Profiling
           </a>
         </li>
@@ -60,7 +60,6 @@ const Sidebar = ({ handleLogout }) => (
     </nav>
   </aside>
 );
-
   
   const ManageWorkout = () => {
     const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -145,16 +144,6 @@ const Sidebar = ({ handleLogout }) => (
                 <table style={styles.table}>
                 <thead>
                     <tr>
-                    <th style={styles.tableHeader}>
-                        <input
-                        type="checkbox"
-                        style={styles.checkbox}
-                        onChange={(e) => {
-                            const checkboxes = document.querySelectorAll(".row-checkbox");
-                            checkboxes.forEach((checkbox) => (checkbox.checked = e.target.checked));
-                        }}
-                        />
-                    </th>
                     <th style={styles.tableHeader}>Category</th>
                     <th style={styles.tableHeader}>Sub Category</th>
                     <th style={styles.tableHeader}>Status</th>
@@ -162,9 +151,6 @@ const Sidebar = ({ handleLogout }) => (
                 </thead>
                 <tbody>
                     <tr style={styles.tableRow}>
-                    <td style={styles.tableCell}>
-                        <input type="checkbox" className="row-checkbox" style={styles.checkbox} />
-                    </td>
                     <td style={styles.tableCell}>Difficulty Level</td>
                     <td style={styles.tableCell}>
                         <button
@@ -177,9 +163,6 @@ const Sidebar = ({ handleLogout }) => (
                     <td style={styles.tableCell}>Live</td>
                     </tr>
                     <tr style={styles.tableRow}>
-                    <td style={styles.tableCell}>
-                        <input type="checkbox" className="row-checkbox" style={styles.checkbox} />
-                    </td>
                     <td style={styles.tableCell}>Type of Workout</td>
                     <td style={styles.tableCell}>
                         <button
@@ -192,9 +175,6 @@ const Sidebar = ({ handleLogout }) => (
                     <td style={styles.tableCell}>Live</td>
                     </tr>
                     <tr style={styles.tableRow}>
-                    <td style={styles.tableCell}>
-                        <input type="checkbox" className="row-checkbox" style={styles.checkbox} />
-                    </td>
                     <td style={styles.tableCell}>User Goals</td>
                     <td style={styles.tableCell}>
                         <button
@@ -207,9 +187,6 @@ const Sidebar = ({ handleLogout }) => (
                     <td style={styles.tableCell}>Live</td>
                     </tr>
                     <tr style={styles.tableRow}>
-                    <td style={styles.tableCell}>
-                        <input type="checkbox" className="row-checkbox" style={styles.checkbox} />
-                    </td>
                     <td style={styles.tableCell}>Limitations</td>
                     <td style={styles.tableCell}>
                         <button

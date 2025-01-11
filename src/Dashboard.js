@@ -38,8 +38,8 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/profiling" style={styles.linkStyle}>
-            <img src={profques} alt="profiling" style={styles.icon} />
+          <a href="/manage_profques" style={styles.linkStyle}>
+            <img src={profques} alt="Profiling" style={styles.icon} />
             Manage Profiling
           </a>
         </li>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import home from "./images/home.png";
 import user from "./images/user.png";
 import feedback from "./images/feedback.png";
@@ -35,8 +35,8 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/profiling" style={styles.linkStyle}>
-            <img src={profques} alt="profiling" style={styles.icon} />
+          <a href="/manage_profques" style={styles.linkStyle}>
+            <img src={profques} alt="Profiling" style={styles.icon} />
             Manage Profiling
           </a>
         </li>
@@ -61,25 +61,55 @@ const Sidebar = ({ handleLogout }) => (
   </aside>
 );
 
-
-
 const ManageUserDashboard = () => {
-  const users = [
-    {
-      id: 1,
-      type: "User",
-      email: "user@example.com",
-      password: "********",
-      status: "Live",
-    },
-    {
-      id: 2,
-      type: "Business User",
-      email: "businessuser@example.com",
-      password: "********",
-      status: "Waiting for approval",
-    },
-  ];
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [userTypeFilter, setUserTypeFilter] = useState("all");
+
+  const [users, setUsers] = useState([
+    { id: 1, type: "User", email: "user@example.com", password: "********", status: "Live" },
+    { id: 2, type: "Business User", email: "business@example.com", password: "********", status: "Waiting for approval" },
+    { id: 3, type: "User", email: "user1@example.com", password: "********", status: "Waiting for approval" },
+  ]);
+
+  // Handle delete user
+  const handleDelete = (userId) => {
+    setUsers((prevUsers) => prevUsers.filter(user => user.id !== userId));
+  };
+
+  // Handle filter change
+  const handleFilterChange = (e) => {
+    setUserTypeFilter(e.target.value);
+  };
+
+  const handleHeaderCheckboxChange = (e) => {
+    if (e.target.checked) {
+      setSelectedUsers(users.map(user => user.id));
+    } else {
+      setSelectedUsers([]);
+    }
+  };
+
+  const handleCheckboxChange = (e, userId) => {
+    if (e.target.checked) {
+      setSelectedUsers(prev => [...prev, userId]);
+    } else {
+      setSelectedUsers(prev => prev.filter(id => id !== userId));
+    }
+  };
+
+  // Filtering users based on search term and user type
+  const filteredUsers = users.filter(user => {
+    const matchesSearchTerm = user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesUserType = userTypeFilter === "all" || user.type.toLowerCase() === userTypeFilter;
+    return matchesSearchTerm && matchesUserType;
+  });
+
+  const isAllSelected = filteredUsers.length > 0 && selectedUsers.length === filteredUsers.length;
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <div style={styles.dashboardContainer}>
@@ -104,9 +134,10 @@ const ManageUserDashboard = () => {
               type="text"
               placeholder="Search for user..."
               style={styles.searchInput}
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
-            <button style={styles.searchButton}>Search</button>
-            <select style={styles.filterDropdown}>
+            <select style={styles.filterDropdown} value={userTypeFilter} onChange={handleFilterChange}>
               <option value="all">All</option>
               <option value="user">User</option>
               <option value="businessuser">Business User</option>
@@ -122,7 +153,12 @@ const ManageUserDashboard = () => {
             <thead>
               <tr>
                 <th style={styles.tableHeader}>
-                  <input type="checkbox" style={styles.checkbox} />
+                  <input 
+                    type="checkbox" 
+                    style={styles.checkbox} 
+                    checked={isAllSelected} 
+                    onChange={handleHeaderCheckboxChange} 
+                  />
                 </th>
                 <th style={styles.tableHeader}>ID</th>
                 <th style={styles.tableHeader}>User Type</th>
@@ -133,10 +169,15 @@ const ManageUserDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id} style={styles.tableRow}>
                   <td style={styles.tableCell}>
-                    <input type="checkbox" style={styles.checkbox} />
+                    <input 
+                      type="checkbox" 
+                      style={styles.checkbox} 
+                      checked={selectedUsers.includes(user.id)} 
+                      onChange={(e) => handleCheckboxChange(e, user.id)} 
+                    />
                   </td>
                   <td style={styles.tableCell}>{user.id}</td>
                   <td style={styles.tableCell}>{user.type}</td>
@@ -144,12 +185,8 @@ const ManageUserDashboard = () => {
                   <td style={styles.tableCell}>{user.password}</td>
                   <td style={styles.tableCell}>{user.status}</td>
                   <td style={styles.tableCell}>
-                    <a href={`/view_user_dashboard/${user.id}`} style={styles.viewLink}>
-                      View
-                    </a>
-                    <a href="#" style={styles.deleteLink}>
-                      Delete
-                    </a>
+                    <a href={`/view_user_dashboard/${user.id}`} style={styles.viewLink}>View</a>
+                    <a href="#" onClick={() => handleDelete(user.id)} style={styles.deleteLink}>Delete</a>
                   </td>
                 </tr>
               ))}
@@ -160,6 +197,8 @@ const ManageUserDashboard = () => {
     </div>
   );
 };
+
+
 
 const styles = {
   dashboardContainer: {

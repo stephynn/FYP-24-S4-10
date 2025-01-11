@@ -27,7 +27,7 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/feedback" style={styles.linkStyle}>
+          <a href="/manage_feedback" style={styles.linkStyle}>
             <img src={feedback} alt="Feedback" style={styles.icon} />
             Manage Feedback
           </a>
@@ -35,8 +35,8 @@ const Sidebar = ({ handleLogout }) => (
         </li>
 
         <li style={styles.sidebarNavItem}>
-          <a href="/profiling" style={styles.linkStyle}>
-            <img src={profques} alt="profiling" style={styles.icon} />
+          <a href="/manage_profques" style={styles.linkStyle}>
+            <img src={profques} alt="Profiling" style={styles.icon} />
             Manage Profiling
           </a>
         </li>
@@ -61,58 +61,44 @@ const Sidebar = ({ handleLogout }) => (
   </aside>
 );
 
-
 const ManageFeedback = () => {
   const [showUploadPopup, setShowUploadPopup] = useState(false); // Separate state for Upload
   const [showSchedulePopup, setShowSchedulePopup] = useState(false); // Separate state for Schedule
   const [selectedDate, setSelectedDate] = useState("");
+  const [filter, setFilter] = useState("all"); // State to track filter
   
-    const users = [
-        {
-          id: 1,
-          email: "user@example.com",
-          date: "12/09/2024",
-          rating: "4/5",
-          status: "",
-        },
-        {
-          id: 2,
-          email: "user@example.com",
-          date: "01/07/2024",
-          rating: "5/5",
-          status: "Live",
-        },
-        {
-          id: 3,
-          email: "user@example.com",
-          date: "18/06/2024",
-          rating: "3/5",
-          status: "",
-        },
-      ];
-    
-     
-      const handleScheduleClick = () => {
-        setShowSchedulePopup(true);
-      };
 
-      const handleUploadClick = () => {
-        setShowUploadPopup(true);
-      };
-    
-      const handlePopupClose = () => {
-        setShowUploadPopup(false);
-        setShowSchedulePopup(false);
-      };
-    
-      const handleSend = () => {
-        console.log("Selected Date:", selectedDate);
-        setShowSchedulePopup(false);
-      };
-    
+  const users = [
+    { id: 1, email: "user@example.com", date: "12/09/2024", rating: "4/5", status: "" },
+    { id: 2, email: "user@example.com", date: "01/07/2024", rating: "5/5", status: "Live" },
+    { id: 3, email: "user@example.com", date: "18/06/2024", rating: "3/5", status: "" },
+  ];
+
+  const filteredUsers = users.filter((user) => {
+    if (filter === "all") return true; // Show all users
+    return user.status === filter; // Filter by "Live" or "Nil"
+  });
+
+  const handleScheduleClick = () => {
+    setShowSchedulePopup(true);
+  };
+
+  const handleUploadClick = () => {
+    setShowUploadPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowUploadPopup(false);
+    setShowSchedulePopup(false);
+  };
+
+  const handleSend = () => {
+    console.log("Selected Date:", selectedDate);
+    setShowSchedulePopup(false);
+  };
+
   return (
     <div style={styles.dashboardContainer}>
-      {/* Header */}
       <header style={styles.header}>
         <div style={styles.headerLeft}>
           <div style={styles.logo}>PEAK FIT</div>
@@ -121,28 +107,29 @@ const ManageFeedback = () => {
         </div>
       </header>
 
-      {/* Dashboard Layout */}
       <div style={styles.dashboardLayout}>
         <Sidebar />
         <div style={styles.dashboardContent}>
           <h2 style={styles.overviewTitle}>Manage Feedback</h2>
 
           {/* Filter */}
-          <select style={styles.filterDropdown}>
-              <option value="all">All</option>
-              <option value="status">Live</option>
-              <option value="status">Nil</option>
+          <select
+            style={styles.filterDropdown}
+            onChange={(e) => setFilter(e.target.value)} // Update the filter state
+            value={filter}
+          >
+            <option value="all">All</option>
+            <option value="Live">Live</option>
+            <option value=""></option>
           </select>
 
-    
-           {/* Buttons */}
+          {/* Buttons */}
           <button style={styles.UploadButton} onClick={handleUploadClick}>
             Upload
           </button>
           <button style={styles.ScheduleButton} onClick={handleScheduleClick}>
             Schedule
           </button>
-
 
           {/* User Table */}
           <table style={styles.table}>
@@ -160,7 +147,7 @@ const ManageFeedback = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id} style={styles.tableRow}>
                   <td style={styles.tableCell}>
                     <input type="checkbox" style={styles.checkbox} />
@@ -177,7 +164,6 @@ const ManageFeedback = () => {
                     <a href="#" style={styles.deleteLink} onClick={handleUploadClick}>
                       Upload
                     </a>
-                    
                   </td>
                 </tr>
               ))}
@@ -186,8 +172,7 @@ const ManageFeedback = () => {
         </div>
       </div>
 
-
-        {/* Upload Popup */}
+      {/* Upload Popup */}
       {showUploadPopup && (
         <div style={styles.popupOverlay}>
           <div style={styles.popup}>
@@ -201,8 +186,7 @@ const ManageFeedback = () => {
         </div>
       )}
 
-
-          {/* Schedule Popup */}
+      {/* Schedule Popup */}
       {showSchedulePopup && (
         <div style={styles.popupOverlay}>
           <div style={styles.popup}>
